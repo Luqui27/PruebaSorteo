@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorteo</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    /* Estilos adicionales */
+    body {
+      padding-top: 70px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 400px;
+    }
+    .btn {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Sorteo</a>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <h1>Sorteo</h1>
+    <p>Ingresa los participantes (una línea por participante) y luego presiona el botón para realizar el sorteo:</p>
+    <div class="form-group">
+      <label for="inputParticipantes">Participantes</label>
+      <textarea class="form-control" id="inputParticipantes" rows="5" placeholder="Ingresa un participante por línea"></textarea>
+    </div>
+    <button id="btnSortear" class="btn btn-primary">Sortear</button>
+    <h2>¡Ganador!</h2>
+    <p id="ganador"></p>
+    <h3>Suplente</h3>
+    <p id="suplente"></p>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    let participantes = [];
+
+    const btnSortear = document.getElementById("btnSortear");
+    const inputParticipantes = document.getElementById("inputParticipantes");
+    const ganador = document.getElementById("ganador");
+    const suplente = document.getElementById("suplente");
+
+    btnSortear.addEventListener("click", () => {
+      const lines = inputParticipantes.value.split('\n');
+      participantes = lines.map(line => line.trim()).filter(line => line !== '');
+      
+      if (participantes.length > 0) {
+        const ganadorIndex = Math.floor(Math.random() * participantes.length);
+        ganador.textContent = participantes[ganadorIndex];
+        participantes.splice(ganadorIndex, 1);
+
+        const suplenteIndex = Math.floor(Math.random() * participantes.length);
+        suplente.textContent = participantes[suplenteIndex];
+      } else {
+        ganador.textContent = "No hay participantes";
+        suplente.textContent = "No hay participantes";
+      }
+    });
+  </script>
+
+  <!-- Scripts de Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
